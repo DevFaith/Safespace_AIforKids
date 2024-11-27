@@ -1,16 +1,17 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
+import { getAnswer, systemContexts } from "../OpenaiService";
 
 const VoiceHandler = () => {
   const [isListening, setIsListening] = useState(false);
   const [question, setQuestion] = useState("");
-  const [response, setResponse] = useState("");
+  const [responseText, setResponseText] = useState("");
+  const [responseAudio, setResponseAudio] = useState("");
   const [synth, setSynth] = useState(null);
 
   useEffect(() => {
     const speechSynth = window.speechSynthesis;
     setSynth(speechSynth);
   }, []);
-
 
   const startListening = () => {
     const recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
@@ -31,16 +32,18 @@ const VoiceHandler = () => {
 
   const fetchResponse = async (userQuestion) => {
     try {
-      const res = await fetch("http://localhost:5000/ask", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ question: userQuestion }),
-      });
-      const data = await res.json();
-      setResponse(data.answer);
-      speakResponse(data.answer);
+      setResponseText("Thinking...");
+      const { answerText, answerAudio } = await getAnswer(systemContexts.friend, userQuestion);
+      setResponseText(answerText);
+
+      if (answerAudio) {
+        setResponseAudio(answerAudio);
+        playAudio(answerAudio);
+      } else {
+        speakResponse(answerText);
+      }
     } catch (error) {
-      setResponse("Oops, something went wrong. Try again!");
+      setResponseText("Oops, something went wrong. Try again!");
     }
   };
 
@@ -51,6 +54,11 @@ const VoiceHandler = () => {
       utterance.voice = voices.find((voice) => voice.name.includes("Google UK English Female")) || voices[0];
       synth.speak(utterance);
     }
+  };
+
+  const playAudio = (audioUrl) => {
+    const audio = new Audio(audioUrl);
+    audio.play();
   };
 
   return (
@@ -66,7 +74,7 @@ const VoiceHandler = () => {
 
       <div className="text-center">
         <p className="text-xl text-blue-600">{question && `You asked: ${question}`}</p>
-        <p className="text-lg text-gray-700">{response && `AI says: ${response}`}</p>
+        <p className="text-lg text-gray-700">{responseText && `AI says: ${responseText}`}</p>
       </div>
     </div>
   );
