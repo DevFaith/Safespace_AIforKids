@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import{ useState, useRef } from "react";
 
 const WorkingSpace = ({ question, response }) => {
   const [notes, setNotes] = useState("");
