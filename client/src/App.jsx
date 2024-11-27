@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import  { useState, useEffect } from "react";
 import VoiceHandler from "./Components/VoiceHandler";
 import WorkingSpace from "./Components/WorkingSpace";
 import AISuggestions from "./Components/AISuggestions";
