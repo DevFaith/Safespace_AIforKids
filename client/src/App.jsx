@@ -1,7 +1,6 @@
-import  { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import VoiceHandler from "./Components/VoiceHandler";
 import WorkingSpace from "./Components/WorkingSpace";
-import AISuggestions from "./Components/AISuggestions";
 
 const App = () => {
   const [user, setUser] = useState(null); // Store user info
@@ -45,14 +44,13 @@ const App = () => {
 
   return (
     <div className="flex flex-col h-screen bg-gradient-to-br from-blue-100 to-purple-200">
-      
+
       <div className="flex-1 flex justify-center items-center">
         <VoiceHandler isSpeaking={isSpeaking} onClick={() => handleVoiceInput(prompt("Speak your answer:"))} />
       </div>
       <div className="w-full h-1/4 bg-white p-4">
         <WorkingSpace question={question} response={response} />
       </div>
-      <AISuggestions />
     </div>
   );
 };
