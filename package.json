@@ -1,0 +1,6 @@
+{
+  "dependencies": {
+    "firebase": "^11.0.2",
+    "regenerator-runtime": "^0.14.1"
+  }
+}
