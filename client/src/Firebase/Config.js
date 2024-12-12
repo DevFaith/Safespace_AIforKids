@@ -1,10 +1,12 @@
-// Import the functions you need from the SDKs you need
+// Import the functions you need from the SDKs
 import { initializeApp } from "firebase/app";
-import { getAnalytics } from "firebase/analytics";
-import { getFirestore } from "firebase/firestore";
+// Remove the Firebase Analytics import
+// import { getAnalytics } from "firebase/analytics";
+import { getFirestore, collection, addDoc } from "firebase/firestore";
 import { getStorage } from "firebase/storage";
 import { getAuth } from "firebase/auth";
 
+// Firebase configuration
 const firebaseConfig = {
     apiKey: "AIzaSyCLqLGOMk_m-XOs6XVgfjRIMtJtn1ad-3w",
     authDomain: "safespaceai-forkids-1e943.firebaseapp.com",
@@ -17,9 +19,11 @@ const firebaseConfig = {
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
-const analytics = getAnalytics(app);
+// Remove Analytics initialization
+// const analytics = getAnalytics(app);
 const db = getFirestore(app);
 const storage = getStorage(app);
 const auth = getAuth(app);
 
-export { app, analytics, db, storage, auth };
+// Export Firebase services
+export { app, db, storage, auth, collection, addDoc };
